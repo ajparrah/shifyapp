@@ -1,4 +1,5 @@
 import Providers from './providers/Providers.js';
+import * as csvParse from 'csv-parse/sync';
 
 class TbxnetSecretService {
   static async getListOfFiles() {
@@ -15,6 +16,49 @@ class TbxnetSecretService {
       throw new Error(
         'An error occurred when we tried to get the list of files'
       );
+    }
+  }
+
+  static async getFileContent(fileName) {
+    if (!fileName) return;
+
+    try {
+      const url = `/secret/file/${fileName}`;
+      const response = await Providers.tbxnet.get(url, {
+        responseType: 'text',
+        validateStatus: (status) => status < 500,
+      });
+      if (response.status !== 200) return; // Skip file because it could not be downloaded
+
+      const csvParsed = csvParse.parse(response.data, {
+        columns: ['file', 'text', 'number', 'hex'],
+        from_line: 2,
+        group_columns_by_name: true,
+        trim: true,
+        skip_empty_lines: true,
+        skip_records_with_empty_values: true,
+        skip_records_with_error: true,
+      });
+      const fileContent = csvParsed.map((file) => ({
+        text: file.text,
+        number: file.number,
+        hex: file.hex,
+      }));
+      return fileContent;
+    } catch (error) {
+      const defaultMessage = `An error occurred when we tried to get content of file called ${fileName}`;
+      if (error.response) {
+        // We need to know if something went wrong with our provider
+        console.log(defaultMessage);
+        if (error.response.data) {
+          console.log(
+            `DETAILS: Error got from tbxnet provider`,
+            error.response.data
+          );
+        }
+      } else {
+        throw new Error(defaultMessage);
+      }
     }
   }
 }

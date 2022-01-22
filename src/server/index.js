@@ -1,6 +1,7 @@
 import express from 'express';
 import pino from 'pino-http';
 import pinoPretty from 'pino-pretty';
+import routes from '../routes/index.js';
 
 const app = express();
 app.use(
@@ -15,9 +16,7 @@ app.use(
 
 const PORT = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Everything is OK!');
-});
+app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
