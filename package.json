@@ -1,0 +1,28 @@
+{
+  "name": "shifyapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node -r dotenv/config ./src/server/index.js",
+    "dev": "nodemon -r dotenv/config ./src/server/index.js",
+    "lint": "standard",
+    "test": "test"
+  },
+  "author": "Alejandro Parra",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "chai": "^4.3.4",
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15",
+    "pino-http": "^6.6.0",
+    "pino-pretty": "^7.5.0"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.4",
+    "standard": "^16.0.4"
+  }
+}
