@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.get('/data', async (req, res) => {
   try {
-    const filesFound = [];
     const listOfFiles = await TbxnetSecretService.getListOfFiles();
     if (listOfFiles.length > 0) {
+      const filesFound = [];
       for (const fileName of listOfFiles) {
         const linesOfFile = await TbxnetSecretService.getFileContent(fileName);
         if (linesOfFile && linesOfFile.length > 0) {
@@ -16,11 +16,16 @@ router.get('/data', async (req, res) => {
           });
         }
       }
+      res.status(200).send({
+        ok: true,
+        files: filesFound,
+      });
+      return;
     }
 
-    res.status(200).send({
-      ok: true,
-      files: filesFound,
+    res.status(404).send({
+      ok: false,
+      msg: 'Files could not be found',
     });
   } catch (error) {
     res.status(500).send({
