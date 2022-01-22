@@ -4,22 +4,24 @@ const router = express.Router();
 
 router.get('/data', async (req, res) => {
   try {
+    const filesFound = [];
     const listOfFiles = await TbxnetSecretService.getListOfFiles();
+    if (listOfFiles.length > 0) {
+      for (const fileName of listOfFiles) {
+        const linesOfFile = await TbxnetSecretService.getFileContent(fileName);
+        if (linesOfFile && linesOfFile.length > 0) {
+          filesFound.push({
+            file: fileName,
+            lines: linesOfFile,
+          });
+        }
+      }
+    }
 
     res.status(200).send({
       ok: true,
-      files: listOfFiles,
+      files: filesFound,
     });
-
-    // TODO: I have to return something like this after validating and format
-    // {
-    //   "file": "file1.csv",
-    //   "lines": [
-    //   {
-    //   "text" :"RgTya",
-    //   "number": 64075909,
-    //   "hex": "70ad29aacf0b690b0467fe2b2767f765"
-    //   },
   } catch (error) {
     res.status(500).send({
       ok: false,
