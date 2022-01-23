@@ -1,7 +1,7 @@
 import chai from 'chai';
 const expect = chai.expect;
 import chaiHttp from 'chai-http';
-import app from '../src/server/index.js';
+import app from '../../src/server/index.js';
 
 chai.use(chaiHttp);
 
@@ -38,7 +38,7 @@ describe('Secret Files Routes', () => {
         .end((error, response) => {
           if (error) return done(error);
           expect(response.body).have.property('files');
-          expect(response.body).have.property('files').be.an('array');
+          expect(response.body).property('files').be.an('array');
           done();
         });
     });
