@@ -49,12 +49,14 @@ class TbxnetSecretService {
       const defaultMessage = `An error occurred when we tried to get content of file called ${fileName}`;
       if (error.response) {
         // We need to know if something went wrong with our provider
-        console.log(defaultMessage);
+        Logger.error({
+          msg: defaultMessage,
+        });
         if (error.response.data) {
-          console.log(
-            `DETAILS: Error got from tbxnet provider`,
-            error.response.data
-          );
+          Logger.error({
+            msg: `DETAILS: Error got from tbxnet provider`,
+            details: error.response.data,
+          });
         }
       } else {
         throw new Error(defaultMessage);
