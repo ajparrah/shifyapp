@@ -4,10 +4,10 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "node -r dotenv/config ./src/server/index.js",
-    "dev": "nodemon -r dotenv/config ./src/server/index.js",
+    "start": "NODE_ENV=production node -r dotenv/config ./src/server/index.js",
+    "dev": "NODE_ENV=dev nodemon -r dotenv/config ./src/server/index.js",
     "lint": "standard",
-    "test": "mocha -r dotenv/config --timeout 25000"
+    "test": "NODE_ENV=test mocha -r dotenv/config ./tests/integration/* --timeout 25000 "
   },
   "author": "Alejandro Parra",
   "license": "ISC",
