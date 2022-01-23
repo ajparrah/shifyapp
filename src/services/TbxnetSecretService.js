@@ -1,5 +1,6 @@
 import Providers from './providers/Providers.js';
 import * as csvParse from 'csv-parse/sync';
+import { Logger } from '../config/logger.js';
 
 class TbxnetSecretService {
   static async getListOfFiles() {
