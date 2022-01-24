@@ -55,6 +55,19 @@ describe('Secret Files Routes', () => {
         })
     })
 
-    // TODO: Should validate files content
+    it('Should returns valid lines of file', (done) => {
+      // Just validate keys because api service can change its data - its files is generated with random values
+      chai
+        .request(app)
+        .get(ROUTE)
+        .end((error, response) => {
+          if (error) return done(error)
+          const lines = response.body.files.map((file) => file.lines).flat()
+          expect(lines.every((line) => line.text)).to.equal(true)
+          expect(lines.every((line) => line.number)).to.equal(true)
+          expect(lines.every((line) => line.hex)).to.equal(true)
+          done()
+        })
+    })
   })
 })
