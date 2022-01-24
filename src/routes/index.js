@@ -1,12 +1,12 @@
-import express from 'express';
-import FilesRouter from './routers/FilesRouter.js';
+import express from 'express'
+import FilesRouter from './routers/FilesRouter.js'
 
-const app = express();
+const app = express()
 
-app.use('/files', FilesRouter);
+app.use('/files', FilesRouter)
 
 app.get('/', (req, res) => {
-  res.send('Everything is OK!');
-});
+  res.send('Everything is OK!')
+})
 
-export default app;
+export default app
