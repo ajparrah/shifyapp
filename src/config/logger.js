@@ -1,38 +1,37 @@
-import pino from 'pino-http';
-import pinoPretty from 'pino-pretty';
+import pino from 'pino-http'
+import pinoPretty from 'pino-pretty'
 
 const pinoLogger = pino(
   pinoPretty({
-    translateTime: `UTC:yyyy-mm-dd'T'HH:MM:ss.l`,
+    translateTime: 'UTC:yyyy-mm-dd\'T\'HH:MM:ss.l',
     colorize: true,
-    singleLine: true,
+    singleLine: true
   })
-);
+)
 
 export class Logger {
-  static error(options) {
-    if (process.env.NODE_ENV === 'test') return;
+  static error (options) {
+    if (process.env.NODE_ENV === 'test') return
 
-    const { msg, details } = options;
+    const { msg, details } = options
     if (msg && details) {
-      pinoLogger.logger.error(details, msg);
-      return;
+      pinoLogger.logger.error(details, msg)
+      return
     }
 
     if (msg) {
-      pinoLogger.logger.error(msg);
-      return;
+      pinoLogger.logger.error(msg)
+      return
     }
 
     if (details) {
-      pinoLogger.logger.error(details);
-      return;
+      pinoLogger.logger.error(details)
     }
   }
 
-  static info(msg) {
-    if (process.env.NODE_ENV === 'test') return;
-    pinoLogger.logger.info(msg);
+  static info (msg) {
+    if (process.env.NODE_ENV === 'test') return
+    pinoLogger.logger.info(msg)
   }
 }
-export default pinoLogger;
+export default pinoLogger
