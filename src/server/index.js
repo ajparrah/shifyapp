@@ -1,23 +1,18 @@
 import express from 'express';
-import pino from 'pino-http';
-import pinoPretty from 'pino-pretty';
+import pinoLogger, { Logger } from '../config/logger.js';
 import routes from '../routes/index.js';
 
 const app = express();
-app.use(
-  pino(
-    pinoPretty({
-      translateTime: `UTC:yyyy-mm-dd'T'HH:MM:ss.l`,
-      colorize: true,
-      singleLine: true,
-    })
-  )
-);
+if (process.env.NODE_ENV !== 'test') {
+  app.use(pinoLogger);
+}
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3300;
 
 app.use(routes);
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  Logger.info(`App is running on port ${PORT}`);
 });
+
+export default app;
