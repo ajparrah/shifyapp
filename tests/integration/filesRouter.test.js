@@ -14,8 +14,8 @@ describe('Secret Files Routes', () => {
         .get(ROUTE)
         .end((error, response) => {
           if (error) return done(error)
-          expect(response).have.status(200)
-          expect(response.body).be.an('object')
+          expect(response).to.have.status(200)
+          expect(response.body).to.be.an('object')
           done()
         })
     })
@@ -26,19 +26,31 @@ describe('Secret Files Routes', () => {
         .get(ROUTE)
         .end((error, response) => {
           if (error) return done(error)
-          expect(response.body).have.property('ok', true)
+          expect(response.body).to.have.property('ok')
+          expect(response.body.ok).to.equal(true)
           done()
         })
     })
 
-    it('Should get a response with valid files property', () => {
+    it('Should get a response with valid files property', (done) => {
       chai
         .request(app)
         .get(ROUTE)
         .end((error, response) => {
           if (error) return done(error)
-          expect(response.body).have.property('files')
-          expect(response.body).property('files').be.an('array')
+          expect(response.body).to.have.property('files')
+          expect(response.body.files).to.be.an('array').that.is.not.empty
+          done()
+        })
+    })
+
+    it('Should get 4 files in the array only', (done) => {
+      chai
+        .request(app)
+        .get(ROUTE)
+        .end((error, response) => {
+          if (error) return done(error)
+          expect(response.body.files).to.have.length(4)
           done()
         })
     })
