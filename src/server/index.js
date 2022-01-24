@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(pinoLogger);
 }
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3300;
 
 app.use(routes);
 
