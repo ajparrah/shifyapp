@@ -35,4 +35,27 @@ router.get('/data', async (req, res) => {
   }
 });
 
+router.get('/list', async (req, res) => {
+  try {
+    const listOfFiles = await TbxnetSecretService.getListOfFiles();
+    if (listOfFiles.length > 0) {
+      res.status(200).send({
+        ok: true,
+        files: listOfFiles,
+      });
+      return;
+    }
+
+    res.status(404).send({
+      ok: false,
+      msg: 'Files could not be found',
+    });
+  } catch (error) {
+    res.status(500).send({
+      ok: false,
+      msg: error.message,
+    });
+  }
+});
+
 export default router;
